@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { viewTasks, specificTask } = require('../controllers/student')
-
-// //register
-// router.post('/register', )
-
-// //login
-// router.post('/login', )
+const {
+  viewTasks,
+  specificTask,
+  submitTask,
+  uploadPdf,
+} = require('../controllers/student')
 
 //view tasks
 router.get('/tasks', viewTasks)
@@ -15,7 +14,7 @@ router.get('/tasks', viewTasks)
 router.get('/tasks/:id', specificTask)
 
 //submit a task file
-router.post('/tasks/:id/submissions')
+router.post('/tasks/:id/submissions',uploadPdf, submitTask)
 
 //check the grades after a task is graded
 router.get('/tasks/:id/submissions/:submissionId/grade')
