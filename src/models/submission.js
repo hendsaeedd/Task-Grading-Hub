@@ -1,24 +1,32 @@
 const mongoose = require('mongoose')
 
-const taskSchema = new mongoose.Schema({
-  studentName: {
-    type: String,
+const submitSchema = new mongoose.Schema({
+  taskId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Task',
     required: true,
   },
+  // studentName: {
+  //   type: String,
+  //   required: true,
+  // },
   file: {
     data: Buffer,
     type: String,
     required: true,
   },
+  path:{
+    type: String,
+    default: '',
+  },
   submittedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
   },
   gradedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    // required: true,
   },
   grade: {
     type: Number,
@@ -30,6 +38,6 @@ const taskSchema = new mongoose.Schema({
   },
 })
 
-const Task = mongoose.model('tasks', taskSchema)
+const Submission = mongoose.model('submissions', submitSchema)
 
-module.exports = Task
+module.exports = Submission
