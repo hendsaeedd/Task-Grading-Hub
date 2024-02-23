@@ -23,6 +23,10 @@ const submitSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  notes:{
+    type: String,
+    default: '',
+  },
   gradedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
