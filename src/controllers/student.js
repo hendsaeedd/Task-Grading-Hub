@@ -47,7 +47,7 @@ const specificTask = async (req, res) => {
 //submit a task file pdf
 const submitTask = async (req, res) => {
   try {
-    const { username } = await req.body
+    const { username, notes } = await req.body
     const file = req.file?.filename
     const path = `/${file}`
     const user = await User.findOne({ username })
@@ -57,6 +57,7 @@ const submitTask = async (req, res) => {
 
     const newTaskSubmission = new Submission({
       taskId: req.params.id,
+      notes,
       file,
       path,
       submittedBy: user._id,
