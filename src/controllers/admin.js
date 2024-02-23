@@ -59,13 +59,13 @@ const submittedTasks = async (req, res) => {
   }
 }
 
-//view submitted tasks with user id 
+//view submitted tasks with user id
 const userIdSubmittedTask = async (req, res) => {
   try {
     const { id, userId } = req.params
     const submissionWithId = await Submission.find(
       { taskId: id, submittedBy: userId },
-      { file: 1, taskId: 1, submittedBy: 1, grade: 1, _id: 0 }
+      { file: 1, taskId: 1, submittedBy: 1, notes: 1, grade: 1, _id: 0 }
     )
     res.status(200).json({ submissionWithId })
   } catch (error) {
