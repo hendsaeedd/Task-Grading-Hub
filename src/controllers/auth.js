@@ -7,10 +7,7 @@ const registerUser = async (req, res) => {
 
     // Check if the role is "admin"
     if (role && role.toLowerCase() === 'admin') {
-      // Ensure that only admin users can assign the "admin" role
-      // Here you can include your logic to check if the current user is an admin
-      // For now, let's assume admin registration is allowed without authentication
-
+      //////
       // Check if an admin user already exists
       const adminExists = await User.exists({ role: 'admin' })
       if (adminExists) {
@@ -44,17 +41,9 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' })
     }
 
-    // Check if the password is correct
-    // const isValidPassword = await user.isValidPassword(password)
-    // if (!isValidPassword) {
-    //   return res.status(401).json({ error: 'Invalid username or password' })
-    // }
-
     // If the user is an admin, grant additional privileges
     if (user.role === 'admin') {
-      // Here you can include additional logic to grant admin privileges
-      // For example, redirecting to admin dashboard or granting access to admin functionalities
-      // For now, we'll just return a message indicating the user is an admin
+      /////
       return res
         .status(200)
         .json({ message: 'Admin logged in successfully', user })
@@ -68,30 +57,8 @@ const loginUser = async (req, res) => {
   }
 }
 
-// //delete user
-// const deleteUser = async (req, res) => {
-//   try {
-//     const deletedUser = await User.deleteOne({ username: req.params.name })
-//     res.status(200).json({ message: 'User deleted successfully', deletedUser })
-//   } catch (error) {
-//     res.status(400).json({ error: error.message })
-//   }
-// }
-
-// //update user
-// const updateUser = async (req, res) => {
-//   try {
-//     const user = await User.updateOne({ username: req.params.name }, req.body)
-//     res.status(200).json(user)
-//   } catch (error) {
-//     res.status(400).json(error.message)
-//   }
-// }
 
 module.exports = {
   registerUser,
   loginUser,
-  // getAllUsers,
-  // deleteUser,
-  // updateUser,
 }

@@ -76,10 +76,28 @@ const userIdSubmittedTask = async (req, res) => {
   }
 }
 
+//grade a submitted tasks with user id
+const gradeSubmittedTask = async (req, res) => {
+  try {
+    const { id, userId } = req.params
+    const { grade, feedback, gradedBy } = req.body
+    const submission = await Submission.findOneAndUpdate(
+      { taskId: id, submittedBy: userId },
+      { grade, feedback, gradedBy },
+      { new: true }
+    )
+    res.status(200).json({ message: 'Task graded successfully', submission })
+  } catch (error) {
+    console.error('Error grading task:', error)
+    res.status(400).json({ error: 'Failed to grade task' })
+  }
+}
+
 module.exports = {
   createTask,
   updateTask,
   deleteTask,
   submittedTasks,
   userIdSubmittedTask,
+  gradeSubmittedTask,
 }

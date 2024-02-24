@@ -71,9 +71,25 @@ const submitTask = async (req, res) => {
   }
 }
 
+//check the grades after a task is graded
+const checkGrades = async (req, res) => {
+  try {
+    const { id, userId } = req.params
+    const submission = await Submission.findOne(
+      { taskId: id, submittedBy: userId },
+      { grade: 1, feedback: 1, gradedBy: 1, _id: 0 }
+    )
+    res.status(200).json({ submission })
+  } catch (error) {
+    console.error('Error checking grades:', error)
+    res.status(400).json({ error: 'Failed to check grades' })
+  }
+}
+
 module.exports = {
   viewTasks,
   specificTask,
   submitTask,
   uploadPdf,
+  checkGrades,
 }
