@@ -5,6 +5,7 @@ const {
   specificTask,
   submitTask,
   uploadPdf,
+  checkGrades,
 } = require('../controllers/student')
 
 //view tasks
@@ -14,9 +15,9 @@ router.get('/tasks', viewTasks)
 router.get('/tasks/:id', specificTask)
 
 //submit a task file
-router.post('/tasks/:id/submissions',uploadPdf, submitTask)
+router.post('/tasks/:id/submissions', uploadPdf, submitTask)
 
 //check the grades after a task is graded
-router.get('/tasks/:id/submissions/:submissionId/grade')
+router.get('/tasks/:id/submissions/:userId/grade', checkGrades)
 
 module.exports = router
