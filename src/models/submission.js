@@ -15,7 +15,7 @@ const submitSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  path:{
+  path: {
     type: String,
     default: '',
   },
@@ -23,18 +23,21 @@ const submitSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  notes:{
+  notes: {
     type: String,
     default: '',
   },
   gradedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    // required: true,
+    type: String,
+    default: 'Dr. Hossam',
   },
   grade: {
     type: Number,
     default: null,
+  },
+  feedback: {
+    type: String,
+    default: 'Great Job',
   },
   createdAt: {
     type: Date,
