@@ -6,6 +6,7 @@ const {
   deleteTask,
   submittedTasks,
   userIdSubmittedTask,
+  gradeSubmittedTask,
 } = require('../controllers/admin')
 
 //create a new task
@@ -23,7 +24,7 @@ router.get('/tasks/:id/submissions', submittedTasks)
 //view submitted tasks with user id
 router.get('/tasks/:id/submissions/:userId', userIdSubmittedTask)
 
-//grade a submission
-router.put('/tasks/:id/submissions/:submissionId/grade')
+//grade a submitted tasks with user id
+router.patch('/tasks/:id/submissions/:userId/grade', gradeSubmittedTask)
 
 module.exports = router
