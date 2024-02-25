@@ -1,25 +1,42 @@
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 
-// Register user
+//register user
 const registerUser = async (req, res) => {
   try {
     const { username, password, role } = req.body
 
-    // Check if the role is "admin"
+    //check password length
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ error: 'Password must be 6 characters or more' })
+    }
+
+    //hash the password
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    //check if the role is admin
     if (role && role.toLowerCase() === 'admin') {
-      //////
-      // Check if an admin user already exists
+      //check if an admin user already exists
       const adminExists = await User.exists({ role: 'admin' })
       if (adminExists) {
         return res.status(400).json({ error: 'Admin already exists' })
       }
     }
 
-    // If role is not provided or is not "admin", default to "student"
+    //if user already exists
+    const userExists = await User.exists({ username })
+    if (userExists) {
+      return res.status(400).json({ error: 'Username already exists' })
+    }
+
     const newUser = await User.create({
       username,
-      password,
-      role: role && role.toLowerCase() === 'admin' ? 'admin' : 'student',
+      password: hashedPassword,
     })
 
     res
@@ -31,32 +48,53 @@ const registerUser = async (req, res) => {
   }
 }
 
-// Login user
+//login user
 const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body
+
     const user = await User.findOne({ username })
 
+    //if the user does not exist, return error
     if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' })
+      return res.status(401).json({ error: 'Username not exist' })
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password)
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid password' })
     }
 
-    // If the user is an admin, grant additional privileges
+    //generate JWT token for authenticated user
+    const accessToken = jwt.sign(
+      { username: user.username, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.EXPIRES_IN }
+    )
+    //set the token as a cookie
+    res.cookie('token', accessToken, { httpOnly: true })
+
+    //if the user is an admin, grant additional privileges
     if (user.role === 'admin') {
-      /////
       return res
         .status(200)
-        .json({ message: 'Admin logged in successfully', user })
+        .json({ message: 'Admin logged in successfully', user, accessToken })
     }
 
-    // For non-admin users, proceed with regular login
-    res.status(200).json({ message: 'User logged in successfully', user })
+    res
+      .status(200)
+      .json({ message: 'User logged in successfully', user, accessToken })
   } catch (error) {
     console.error('Error logging in user:', error)
     res.status(500).json({ error: 'Failed to log in user' })
   }
 }
 
+//logout
+// const logoutUser = (req, res) => {
+//   res.clearCookie('token')
+//   res.json({ message: 'Logout successful.' })
+//   res.redirect('/')
+// }
 
 module.exports = {
   registerUser,
