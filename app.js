@@ -5,9 +5,10 @@ const app = express()
 const port = process.env.PORT || 5000
 //error handling middleware
 const errorHandler = require('./src/middleware/globalErrorHandling')
-const handleErrors = require('./src/middleware/handleErrors')
+// const handleErrors = require('./src/middleware/handleErrors')
 //authorized middleware
 const checkPermission = require('./src/middleware/checkPermission')
+const verifyToken = require('./src/middleware/verifyToken')
 
 const connect = require('./src/config/db')
 //routes
@@ -24,11 +25,11 @@ app.use(express.json())
 //mount routes
 app.use('/auth', authRoutes)
 app.use('/admin',checkPermission, adminRoutes)
-app.use('/student', studentRoutes)
+app.use('/student',verifyToken, studentRoutes)
 
 //error handling middleware
 app.use(errorHandler)
-app.use(handleErrors)
+// app.use(handleErrors)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
