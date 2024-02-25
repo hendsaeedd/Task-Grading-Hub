@@ -1,23 +1,28 @@
+const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
-// Middleware to check user permissions
+//middleware to check user permissions
 const checkPermission = async (req, res, next) => {
-  const isAdmin = await User.exists({ role: 'admin' })
+  try {
+    const accessToken = req.headers.authorization.split(' ')[1]
 
-  const isStudent = await User.exists({ role: 'student' })
+    const decodedToken = jwt.verify(accessToken, process.env.JWT_SECRET)
 
-  if (isAdmin) {
-    return next()
+    const user = await User.findOne({ username: decodedToken.username })
+    const userRole = user ? user.role : null
+
+    //check if the user is an admin
+    if (userRole === 'admin') {
+      return next()
+    } else {
+      return res
+        .status(403)
+        .json({ error: 'Forbidden: Only admins have access to this resource' })
+    }
+  } catch (error) {
+    console.error('Error checking permissions:', error)
+    return res.status(401).json({ error: 'Unauthorized: Invalid access token' })
   }
-  if (isStudent) {
-    return res
-      .status(403)
-      .json({ error: 'Forbidden: Only admins have access to this resource' })
-  }
-
-  return res
-    .status(403)
-    .json({ error: 'Forbidden: You do not have access to this resource' })
 }
 
 module.exports = checkPermission
