@@ -64,7 +64,16 @@ const submitTask = async (req, res) => {
     })
 
     const savedSubmission = await newTaskSubmission.save()
-    res.status(201).json({ savedSubmission })
+    //only show submitted file, notes, taskid and submission id
+    res.status(201).json({
+      message: 'Task submitted successfully',
+      submission: {
+        id: savedSubmission._id,
+        taskId: savedSubmission.taskId,
+        notes: savedSubmission.notes,
+        file: savedSubmission.file,
+      },
+    })
   } catch (error) {
     console.error('Error submitting task:', error)
     res.status(400).json({ error: 'Failed to submit task' })
