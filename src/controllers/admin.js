@@ -19,11 +19,11 @@ const createTask = async (req, res) => {
 //update a task
 const updateTask = async (req, res) => {
   try {
-    const { title, description } = req.body
+    const { title, description, deadline } = req.body
     const { id } = req.params
     const updatedTask = await Task.findByIdAndUpdate(
       id,
-      { title, description },
+      { title, description, deadline },
       { new: true }
     )
     res
