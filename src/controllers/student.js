@@ -88,6 +88,15 @@ const checkGrades = async (req, res) => {
       { taskId: id, submittedBy: userId },
       { grade: 1, feedback: 1, gradedBy: 1, _id: 0 }
     )
+
+    if (userId !== req.user.userId) {
+      return res
+        .status(403)
+        .json({
+          error: 'You can only access your own grades😒',
+        })
+    }
+
     res.status(200).json({ submission })
   } catch (error) {
     console.error('Error checking grades:', error)
