@@ -8,11 +8,19 @@ const checkPermission = async (req, res, next) => {
 
     const decodedToken = jwt.verify(accessToken, process.env.JWT_SECRET)
 
-    const user = await User.findOne({ username: decodedToken.username })
-    const userRole = user ? user.role : null
+    const userId = decodedToken.userId
+
+    const user = await User.findById(userId)
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    const userRole = user.role
 
     //check if the user is an admin
     if (userRole === 'admin') {
+      req.user = user
       return next()
     } else {
       return res
