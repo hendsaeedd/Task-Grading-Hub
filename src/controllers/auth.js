@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
     })
 
     res
-      .status(201)
+      .status(200)
       .json({ message: 'User was registered successfully', user: newUser })
   } catch (error) {
     console.error('Error registering user:', error)
