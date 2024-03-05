@@ -1,7 +1,7 @@
 {
   "name": "task-grading-hub",
   "version": "1.0.0",
-  "description": "The Task Grading Hub is a REST API designed to streamline the process of collecting, grading, and providing feedback on programming tasks submitted by students.",
+  "description": "The Task Grading Hub is a REST API designed to streamline the process of collecting, grading, and providing feedback on tasks submitted by students.",
   "main": "app.js",
   "scripts": {
     "test": "jest",
