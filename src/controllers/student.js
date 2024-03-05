@@ -65,7 +65,7 @@ const submitTask = async (req, res) => {
 
     const savedSubmission = await newTaskSubmission.save()
     //only show submitted file, notes, taskid and submission id
-    res.status(201).json({
+    res.status(200).json({
       message: 'Task submitted successfully',
       submission: {
         id: savedSubmission._id,
