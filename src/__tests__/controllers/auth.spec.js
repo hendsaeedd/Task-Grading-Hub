@@ -35,7 +35,7 @@ describe('registerUser', () => {
 })
 
 describe('loginUser', () => {
-  it('should log in a user successfully', async () => {
+  it('should login a user successfully', async () => {
     const req = {
       body: { username: 'testuser', password: 'password' },
     }
@@ -79,7 +79,7 @@ describe('loginUser', () => {
     })
   })
 
-  it('should return error if user does not exist', async () => {
+  it('should return error if username does not exist', async () => {
     const req = {
       body: {
         username: 'testuser',
