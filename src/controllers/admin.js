@@ -8,7 +8,7 @@ const createTask = async (req, res) => {
     const { title, description, deadline } = req.body
     const newTask = await Task.create({ title, description, deadline })
     res
-      .status(201)
+      .status(200)
       .json({ message: 'Task created successfully', task: newTask })
   } catch (error) {
     console.error('Error creating task:', error)

@@ -58,11 +58,11 @@ const loginUser = async (req, res) => {
 
     //if the user does not exist, return error
     if (!user) {
-      return res.status(401).json({ error: 'Username not exist' })
+      return res.status(400).json({ error: 'Username not exist' })
     }
     const passwordMatch = await bcrypt.compare(password, user.password)
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid password' })
+      return res.status(400).json({ error: 'Invalid password' })
     }
 
     //generate JWT token for authenticated user
