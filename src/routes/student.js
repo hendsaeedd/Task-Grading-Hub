@@ -23,13 +23,16 @@ const {
  *     tags: [Student]
  *     responses:
  *       200:
- *         description: Successfully retrieved tasks
+ *         description: Successfully viewed the tasks
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 tasks:
+ *                 message:
+ *                   type: string
+ *                   example: Successfully viewed the tasks
+ *                 task:
  *                   type: array
  *       400:
  *         description: Failed to view tasks
@@ -40,6 +43,7 @@ const {
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to view tasks
  */
 //view tasks
 router.get('/tasks', viewTasks)
@@ -56,11 +60,43 @@ router.get('/tasks', viewTasks)
  *         required: true
  *         schema:
  *           type: string
+ *         description: View specific tasks
  *     responses:
  *       200:
  *         description: Successfully retrieved the task
  *         content:
  *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Successfully retrieved the task
+ *                 submissions:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 123
+ *                     title:
+ *                       type: string
+ *                       example: task one
+ *                     description:
+ *                       type: string
+ *                       example: this is a task one description
+ *                     deadline:
+ *                       type: string
+ *                       format: date
+ *       400:
+ *         description: Failed to view specific task
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Failed to view specific task
  *       404:
  *         description: Task not found
  *         content:
@@ -70,6 +106,7 @@ router.get('/tasks', viewTasks)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Task not found
  */
 //get details of a specific task
 router.get('/tasks/:id', specificTask)
@@ -89,7 +126,7 @@ router.get('/tasks/:id', specificTask)
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -111,6 +148,21 @@ router.get('/tasks/:id', specificTask)
  *                 message:
  *                   type: string
  *                   example: Task submitted successfully
+ *                 submissions:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 123
+ *                     username:
+ *                       type: string
+ *                       example: username
+ *                     notes:
+ *                       type: string
+ *                       example: thanks
+ *                     file:
+ *                       type: pdf
+ *                       format: buffer
  *       400:
  *         description: Failed to submit task
  *         content:
@@ -120,6 +172,7 @@ router.get('/tasks/:id', specificTask)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to submit task
  */
 //submit a task file
 router.post('/tasks/:id/submissions', uploadPdf, submitTask)
@@ -149,6 +202,25 @@ router.post('/tasks/:id/submissions', uploadPdf, submitTask)
  *           application/json:
  *             schema:
  *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Task grades viewed successfully
+ *                 submissions:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 123
+ *                     userId:
+ *                       type: string
+ *                       example: 1234
+ *                     feedback:
+ *                       type: string
+ *                       example: thanks
+ *                     grade:
+ *                       type: number
+ *                       example: 30
  *       400:
  *         description: Failed to check grades
  *         content:
@@ -158,6 +230,17 @@ router.post('/tasks/:id/submissions', uploadPdf, submitTask)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to check grades
+ *       403:
+ *         description: You can only access your own grades
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: You can only access your own grades
  */
 //check the grades after a task is graded
 router.get('/tasks/:id/submissions/:userId/grade', checkGrades)

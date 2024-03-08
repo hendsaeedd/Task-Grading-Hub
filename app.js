@@ -39,6 +39,7 @@ app.use(errorHandler)
 //swagger
 const options = {
   definition: {
+    openapi: '3.0.0',
     info: {
       title: 'Task Grading Hub',
       version: '1.0.1',

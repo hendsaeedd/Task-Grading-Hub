@@ -47,6 +47,18 @@ const {
  *                 message:
  *                   type: string
  *                   example: Task created successfully
+ *                 task:
+ *                   type: object
+ *                   properties:
+ *                     title:
+ *                       type: string
+ *                       example: task one
+ *                     description:
+ *                       type: string
+ *                       example: this is a task one description
+ *                     deadline:
+ *                       type: string
+ *                       format: date
  *       400:
  *         description: Failed to create task
  *         content:
@@ -56,6 +68,7 @@ const {
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to create task
  */
 
 //create a new task
@@ -81,6 +94,8 @@ router.post('/tasks', createTask)
  *           schema:
  *             type: object
  *             properties:
+ *               taskId:
+ *                 type: string
  *               title:
  *                 type: string
  *               description:
@@ -99,6 +114,21 @@ router.post('/tasks', createTask)
  *                 message:
  *                   type: string
  *                   example: Task updated successfully
+ *                 task:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 67t655
+ *                     title:
+ *                       type: string
+ *                       example: task 1
+ *                     description:
+ *                       type: string
+ *                       example: this is a task 1 description
+ *                     deadline:
+ *                       type: string
+ *                       format: date
  *       400:
  *         description: Failed to update task
  *         content:
@@ -108,6 +138,7 @@ router.post('/tasks', createTask)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to update task
  */
 //update a task
 router.patch('/tasks/:id', updateTask)
@@ -135,6 +166,12 @@ router.patch('/tasks/:id', updateTask)
  *                 message:
  *                   type: string
  *                   example: Task deleted successfully
+ *                 task:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 1324356
  *       400:
  *         description: Failed to delete task
  *         content:
@@ -144,6 +181,7 @@ router.patch('/tasks/:id', updateTask)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to delete task
  */
 //delete a task
 router.delete('/tasks/:id', deleteTask)
@@ -171,6 +209,12 @@ router.delete('/tasks/:id', deleteTask)
  *               properties:
  *                 submissions:
  *                   type: array
+ *                 task:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 1a2b3c
  *       400:
  *         description: Failed to view submitted tasks
  *         content:
@@ -180,6 +224,7 @@ router.delete('/tasks/:id', deleteTask)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to view submitted tasks
  */
 
 //view submitted tasks
@@ -211,6 +256,15 @@ router.get('/tasks/:id/submissions', submittedTasks)
  *           application/json:
  *             schema:
  *               type: object
+ *                 submissions:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 546
+ *                     userId:
+ *                       type: string
+ *                       example: 123
  *       400:
  *         description: Failed to view submitted tasks with user ID
  *         content:
@@ -220,6 +274,7 @@ router.get('/tasks/:id/submissions', submittedTasks)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to view submitted tasks with user ID
  */
 //view submitted tasks with user id
 router.get('/tasks/:id/submissions/:userId', userIdSubmittedTask)
@@ -267,6 +322,18 @@ router.get('/tasks/:id/submissions/:userId', userIdSubmittedTask)
  *                 message:
  *                   type: string
  *                   example: Task graded successfully
+ *                 submissions:
+ *                   type: object
+ *                   properties:
+ *                     taskId:
+ *                       type: string
+ *                       example: 123
+ *                     userId:
+ *                       type: string
+ *                       example: 123
+ *                     grade:
+ *                       type: number
+ *                       example: 55
  *       400:
  *         description: Failed to grade task
  *         content:
@@ -276,6 +343,7 @@ router.get('/tasks/:id/submissions/:userId', userIdSubmittedTask)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to grade task
  */
 //grade a submitted tasks with user id
 router.patch('/tasks/:id/submissions/:userId/grade', gradeSubmittedTask)

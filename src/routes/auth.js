@@ -37,8 +37,7 @@ const { registerUser, loginUser } = require('../controllers/auth')
  *               properties:
  *                 message:
  *                   type: string
- *                 user:
- *                   type: object
+ *                   example: User was registered successfully
  *       '400':
  *         description: Failed to register user
  *         content:
@@ -48,6 +47,7 @@ const { registerUser, loginUser } = require('../controllers/auth')
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to register user
  */
 //register
 router.post('/register', registerUser)
@@ -101,6 +101,7 @@ router.post('/register', registerUser)
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: Failed to log in user
  */
 //login
 router.post('/login', loginUser)
