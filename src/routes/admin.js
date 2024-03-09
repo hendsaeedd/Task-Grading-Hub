@@ -8,6 +8,8 @@ const {
   userIdSubmittedTask,
   gradeSubmittedTask,
 } = require('../controllers/admin')
+const {createTasksValidation} = require('../middleware/validation')
+const errorValidation = require('../middleware/errorValidation')
 
 /**
  * @swagger
@@ -72,7 +74,7 @@ const {
  */
 
 //create a new task
-router.post('/tasks', createTask)
+router.post('/tasks', createTasksValidation, errorValidation, createTask)
 
 /**
  * @swagger

@@ -1,6 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const { registerUser, loginUser } = require('../controllers/auth')
+const {
+  registerValidation,
+  loginValidation,
+} = require('../middleware/validation')
+const errorValidation = require('../middleware/errorValidation')
 /**
  * @swagger
  * tags:
@@ -50,7 +55,7 @@ const { registerUser, loginUser } = require('../controllers/auth')
  *                   example: Failed to register user
  */
 //register
-router.post('/register', registerUser)
+router.post('/register', registerValidation, errorValidation, registerUser)
 
 /**
  * @swagger
@@ -104,7 +109,7 @@ router.post('/register', registerUser)
  *                   example: Failed to log in user
  */
 //login
-router.post('/login', loginUser)
+router.post('/login', loginValidation, errorValidation, loginUser)
 
 //logout
 // router.post('/logout',)

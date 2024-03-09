@@ -7,6 +7,8 @@ const {
   uploadPdf,
   checkGrades,
 } = require('../controllers/student')
+const {submittedTasksValidation} = require('../middleware/validation')
+const errorValidation = require('../middleware/errorValidation')
 
 /**
  * @swagger
@@ -175,7 +177,13 @@ router.get('/tasks/:id', specificTask)
  *                   example: Failed to submit task
  */
 //submit a task file
-router.post('/tasks/:id/submissions', uploadPdf, submitTask)
+router.post(
+  '/tasks/:id/submissions',
+  submittedTasksValidation,
+  errorValidation,
+  uploadPdf,
+  submitTask
+)
 
 /**
  * @swagger
