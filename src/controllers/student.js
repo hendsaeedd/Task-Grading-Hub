@@ -50,6 +50,15 @@ const submitTask = async (req, res) => {
     const { username, notes } = await req.body
     const file = req.file?.filename
     const path = `/${file}`
+
+    if (!file) {
+      return res.status(400).json({ error: 'File not provided' })
+    }
+
+    if (!file.endsWith('.pdf')) {
+      return res.status(400).json({ error: 'Only PDF files are allowed' })
+    }
+
     const user = await User.findOne({ username })
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
