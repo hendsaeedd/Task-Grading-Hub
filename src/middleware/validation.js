@@ -28,7 +28,6 @@ const createTasksValidation = [
 
 const submittedTasksValidation = [
   body('username').notEmpty().withMessage('Username is required'),
-  body('file').notEmpty().withMessage('File is required'),
   body('notes').notEmpty().withMessage('Notes is required'),
 ]
 
