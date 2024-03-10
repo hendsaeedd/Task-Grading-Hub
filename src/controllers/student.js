@@ -64,6 +64,18 @@ const submitTask = async (req, res) => {
       return res.status(404).json({ error: 'User not found' })
     }
 
+    //check if user submit before deadline
+    const task = await Task.findById(req.params.id)
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' })
+    }
+
+    const currentDate = new Date()
+    const deadline = new Date(task.deadline)
+
+    if (currentDate > deadline) {
+      return res.status(400).json({ error: 'Deadline is over' })
+    }
     const newTaskSubmission = new Submission({
       taskId: req.params.id,
       notes,
@@ -99,11 +111,9 @@ const checkGrades = async (req, res) => {
     )
 
     if (userId !== req.user.userId) {
-      return res
-        .status(403)
-        .json({
-          error: 'You can only access your own grades😒',
-        })
+      return res.status(403).json({
+        error: 'You can only access your own grades😒',
+      })
     }
 
     res.status(200).json({ submission })
