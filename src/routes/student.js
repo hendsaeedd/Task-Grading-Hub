@@ -179,10 +179,10 @@ router.get('/tasks/:id', specificTask)
 //submit a task file
 router.post(
   '/tasks/:id/submissions',
+  uploadPdf,
   submittedTasksValidation,
   errorValidation,
-  uploadPdf,
-  submitTask
+  submitTask,
 )
 
 /**
